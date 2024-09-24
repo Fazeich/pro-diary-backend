@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "Сходить в магазин",
+    "duration": 1,
+    "importance": "important"
+  },
+  {
+    "id": 2,
+    "title": "Встретить Полю",
+    "duration": 1,
+    "importance": "important"
+  },
+  {
+    "id": 3,
+    "title": "Закончить работу",
+    "duration": 4,
+    "importance": "important"
+  },
+  {
+    "id": 4,
+    "title": "Поприседать",
+    "duration": 1,
+    "importance": "not_important"
+  },
+  {
+    "id": 5,
+    "title": "Медитация",
+    "duration": 2,
+    "importance": "not_important"
+  },
+  {
+    "id": 6,
+    "title": "Выпить кофе",
+    "duration": 1,
+    "importance": ""
+  },
+  {
+    "id": 7,
+    "title": "Ещё что-то",
+    "duration": 1,
+    "importance": "not_important"
+  },
+  {
+    "id": 8,
+    "title": "Интересная цель",
+    "duration": 1,
+    "importance": ""
+  }
+]
