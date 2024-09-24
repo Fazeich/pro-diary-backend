@@ -3,16 +3,25 @@
   "version": "1.0.0",
   "description": "pro-diary-server",
   "main": "index.js",
+  "module": "es5",
   "scripts": {
-    "start": "node ./bin/index.js"
+    "start": "node bin/index.js",
+    "dev": "nodemon bin/index.js 3010"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.0"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.0",
+    "express-validator": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.3"
   },
   "bin": {
     "server": "bin/index.js"
   },
-  "keywords": []
+  "keywords": [],
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
 }
