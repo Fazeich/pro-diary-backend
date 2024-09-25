@@ -1,10 +1,10 @@
 const { Router } = require("express");
 const { check, validationResult } = require("express-validator");
-const User = require("../models/User");
 const Diary = require("../models/Diary");
 
 const router = Router();
 
+// Получение всех задач
 router.get(
   "/",
   [check("userId", "Некорректный идентификатор пользователя").exists()],
@@ -28,11 +28,12 @@ router.get(
         data: diaries,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 );
 
+// Создание задачи
 router.post(
   "/create",
   [check("userId", "Некорректный идентификатор пользователя").exists()],
@@ -61,18 +62,17 @@ router.post(
         diary: newDiary,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 );
 
+// Удаление конкретной задачи
 router.delete(
   "/:id",
   [check("id", "Некорректный идентификатор записи").exists()],
   async (req, res) => {
     try {
-      console.log(req.params);
-
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
@@ -91,11 +91,12 @@ router.delete(
         message: "Запись была успешно удалена",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 );
 
+// Изменение атрбута задачи
 router.put(
   "/:id",
   [check("id", "Некорректный идентификатор записи").exists()],

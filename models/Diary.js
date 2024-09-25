@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const schema = new Schema({
   title: { type: String, required: true },
-  duration: { type: Number, required: true },
+  duration: { type: Number },
   importance: { type: String },
   owner: { type: Schema.Types.ObjectId, ref: "User" },
 });

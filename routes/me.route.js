@@ -32,7 +32,7 @@ router.post("/me", async (req, res) => {
       message: "Ошибка в обработке данных",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

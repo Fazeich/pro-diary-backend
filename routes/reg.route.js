@@ -49,7 +49,7 @@ router.post(
         message: "Регистрация прошла успешно!",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 );

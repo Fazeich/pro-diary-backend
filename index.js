@@ -21,10 +21,10 @@ const start = async () => {
     );
 
     app.listen(PORT, () => {
-      console.log(`Listening on: ${PORT}`);
+      console.info(`Listening on: ${PORT}`);
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
