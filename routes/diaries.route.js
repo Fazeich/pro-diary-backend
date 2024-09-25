@@ -54,6 +54,7 @@ router.post(
       const newDiary = new Diary({
         ...diary,
         owner: userId,
+        finished: false,
       });
 
       await newDiary.save();
@@ -122,6 +123,66 @@ router.put(
     );
 
     res.status(200).json(newDiary);
+  }
+);
+
+// Завершение задачи
+router.post(
+  "/finish",
+  [check("id", "Некорректный идентификатор записи").exists()],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        data: {
+          errors,
+          message: "Ошибка при получении данных",
+        },
+      });
+    }
+
+    const { id } = req.body;
+
+    if (!id) {
+      res.status(500).json({ message: "Ошибка при получении данных" });
+    }
+
+    await Diary.updateOne({ _id: id }, { finished: true });
+
+    res.status(200).json({
+      message: "Задача успешно завершена!",
+    });
+  }
+);
+
+// Возврат задачи
+router.post(
+  "/return",
+  [check("id", "Некорректный идентификатор записи").exists()],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        data: {
+          errors,
+          message: "Ошибка при получении данных",
+        },
+      });
+    }
+
+    const { id } = req.body;
+
+    if (!id) {
+      res.status(500).json({ message: "Ошибка при получении данных" });
+    }
+
+    await Diary.updateOne({ _id: id }, { finished: false });
+
+    res.status(200).json({
+      message: "Задача успешно завершена!",
+    });
   }
 );
 
