@@ -5,24 +5,12 @@ const bcrypt = require("bcryptjs");
 
 const router = Router();
 
-router.post(
-  "/reg",
-  [
-    check("login", "Некорректный логин").isLength({ min: 6 }),
-    check("password", "Некорректный пароль").isLength({ min: 7 }),
-  ],
+router.get(
+  "/users",
   async (req, res) => {
     try {
-      const errors = validationResult(req);
 
-      if (!errors.isEmpty()) {
-        return res.status(400).json({
-          errors: errors.array(),
-          message: "Некорректные данные при регистрации",
-        });
-      }
-
-      const { login, password } = req.body;
+      const { userId } = req.body;
 
       const isLoginUsed = await User.findOne({ login });
 
@@ -39,7 +27,8 @@ router.post(
         password: hashedPasword,
         diaries: [],
         settings: {
-          efficiency: 10,
+          theme: "light",
+          efficiency: 12,
         },
       });
 

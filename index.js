@@ -6,15 +6,13 @@ const app = express();
 
 app.use(express.json({ extended: true }));
 
-app.use("/api", require("../routes/reg.route"));
+app.use("/api", require("./routes/reg.route"));
 
-app.use("/api", require("../routes/auth.route"));
+app.use("/api", require("./routes/auth.route"));
 
-app.use("/api/diaries", (req, res) => {
-  res.send({
-    data: require("../mock/diaries.json"),
-  });
-});
+app.use("/api", require("./routes/me.route"));
+
+app.use("/api/diaries", require("./routes/diaries.route"));
 
 const start = async () => {
   try {

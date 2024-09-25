@@ -5,8 +5,8 @@
   "main": "index.js",
   "module": "es5",
   "scripts": {
-    "start": "node bin/index.js",
-    "dev": "nodemon bin/index.js 3010"
+    "start": "node index.js",
+    "dev": "nodemon index.js 3010"
   },
   "author": "",
   "license": "ISC",

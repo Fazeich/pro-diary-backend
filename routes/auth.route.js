@@ -52,7 +52,14 @@ router.post(
         { expiresIn: "1h" }
       );
 
-      return res.json({ data: { token, userId: user.id } });
+      return res.json({
+        token,
+        user: {
+          id: user.id,
+          login: user.login,
+          settings: user.settings,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
