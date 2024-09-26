@@ -229,7 +229,7 @@ router.post(
     await Diary.updateOne({ _id: id }, { finished: false });
 
     res.status(200).json({
-      message: "Задача успешно завершена!",
+      message: "Задача успешно возвращена!",
     });
   }
 );
@@ -256,10 +256,10 @@ router.post(
       res.status(500).json({ message: "Ошибка при получении данных" });
     }
 
-    await Diary.updateOne({ _id: id }, { archived: false });
+    await Diary.updateOne({ _id: id }, { archived: true });
 
     res.status(200).json({
-      message: "Задача успешно завершена!",
+      message: "Задача успешно архивирована!",
     });
   }
 );
@@ -289,7 +289,7 @@ router.post(
     await Diary.updateOne({ _id: id }, { archived: false });
 
     res.status(200).json({
-      message: "Задача успешно завершена!",
+      message: "Задача успешно возвращена из архива!",
     });
   }
 );
