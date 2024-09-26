@@ -1,10 +1,11 @@
 const { Router } = require("express");
 const { check, validationResult } = require("express-validator");
 const Diary = require("../models/Diary");
+const getSortedDiaries = require("../utils/getSortedDiaries");
 
 const router = Router();
 
-// Получение всех задач
+// Получение всех активных задач
 router.get(
   "/",
   [check("userId", "Некорректный идентификатор пользователя").exists()],
@@ -24,9 +25,55 @@ router.get(
 
       const diaries = await Diary.find({ owner: userId });
 
-      return res.status(200).json({
-        data: diaries,
+      const activeDiaries = diaries.filter((diary) => !diary.archived);
+
+      const sortedDiaries = getSortedDiaries(activeDiaries);
+
+      return res.status(200).json(sortedDiaries);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
+// Получение всех неактивных задач
+router.get(
+  "/archive",
+  [check("userId", "Некорректный идентификатор пользователя").exists()],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          data: {
+            errors,
+            message: "Ошибка при получении данных",
+          },
+        });
+      }
+      const { userId, finished } = req.query;
+
+      if (!!finished) {
+        const archivedDiaries = await Diary.find({
+          owner: userId,
+          archived: true,
+          finished,
+        });
+
+        const sortedDiaries = getSortedDiaries(archivedDiaries);
+
+        return res.status(200).json(sortedDiaries);
+      }
+
+      const archivedDiaries = await Diary.find({
+        owner: userId,
+        archived: true,
       });
+
+      const sortedDiaries = getSortedDiaries(archivedDiaries);
+
+      return res.status(200).json(sortedDiaries);
     } catch (error) {
       console.error(error);
     }
@@ -55,6 +102,7 @@ router.post(
         ...diary,
         owner: userId,
         finished: false,
+        archived: false,
       });
 
       await newDiary.save();
@@ -179,6 +227,66 @@ router.post(
     }
 
     await Diary.updateOne({ _id: id }, { finished: false });
+
+    res.status(200).json({
+      message: "Задача успешно завершена!",
+    });
+  }
+);
+
+// Архивирование задачи
+router.post(
+  "/archive",
+  [check("id", "Некорректный идентификатор записи").exists()],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        data: {
+          errors,
+          message: "Ошибка при получении данных",
+        },
+      });
+    }
+
+    const { id } = req.body;
+
+    if (!id) {
+      res.status(500).json({ message: "Ошибка при получении данных" });
+    }
+
+    await Diary.updateOne({ _id: id }, { archived: false });
+
+    res.status(200).json({
+      message: "Задача успешно завершена!",
+    });
+  }
+);
+
+// Возврат задачи из архива
+router.post(
+  "/archive/return",
+  [check("id", "Некорректный идентификатор записи").exists()],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        data: {
+          errors,
+          message: "Ошибка при получении данных",
+        },
+      });
+    }
+
+    const { id } = req.body;
+
+    if (!id) {
+      res.status(500).json({ message: "Ошибка при получении данных" });
+    }
+
+    await Diary.updateOne({ _id: id }, { archived: false });
 
     res.status(200).json({
       message: "Задача успешно завершена!",
