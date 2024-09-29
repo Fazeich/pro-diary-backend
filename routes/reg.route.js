@@ -39,7 +39,8 @@ router.post(
         password: hashedPasword,
         diaries: [],
         settings: {
-          efficiency: 10,
+          isUsingEfficiency: true,
+          efficiency: 6,
         },
       });
 
