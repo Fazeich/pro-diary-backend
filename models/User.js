@@ -6,6 +6,7 @@ const schema = new Schema({
   diaries: [{ type: Schema.Types.ObjectId, ref: "Diary" }],
   settings: {
     efficiency: { type: Number },
+    isUsingEfficiency: { type: Boolean },
   },
 });
 

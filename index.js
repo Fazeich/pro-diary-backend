@@ -14,6 +14,8 @@ app.use("/api", require("./routes/me.route"));
 
 app.use("/api/diaries", require("./routes/diaries.route"));
 
+app.use("/api/user", require("./routes/user.route"));
+
 const start = async () => {
   try {
     await mongoose.connect(
