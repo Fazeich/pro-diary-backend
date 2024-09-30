@@ -32,7 +32,7 @@ router.get("/settings", async (req, res) => {
     const { userId } = req.query;
 
     if (!userId) {
-      res.status(400).json({
+      return res.status(400).json({
         messge: "Нет идентификатора пользователя",
       });
     }
