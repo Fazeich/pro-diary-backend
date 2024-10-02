@@ -41,6 +41,7 @@ router.post(
         settings: {
           isUsingEfficiency: true,
           efficiency: 6,
+          isShowWelcome: true,
         },
       });
 
