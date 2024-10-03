@@ -9,6 +9,7 @@ const schema = new Schema({
     efficiency: { type: Number },
     isUsingEfficiency: { type: Boolean },
     isShowWelcome: { type: Boolean },
+    isShowLearn: { type: Boolean },
   },
 });
 
