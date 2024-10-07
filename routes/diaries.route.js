@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { check, validationResult } = require("express-validator");
 const Diary = require("../models/Diary");
 const getSortedDiaries = require("../utils/getSortedDiaries");
+// const sortDiaries = require("../utils/getSortedDiaries");
 
 const router = Router();
 

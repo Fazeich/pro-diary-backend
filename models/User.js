@@ -6,10 +6,16 @@ const schema = new Schema({
   diaries: [{ type: Schema.Types.ObjectId, ref: "Diary" }],
 
   settings: {
-    efficiency: { type: Number },
-    isUsingEfficiency: { type: Boolean },
-    isShowWelcome: { type: Boolean },
-    isShowLearn: { type: Boolean },
+    userSettings: {
+      efficiency: { type: Number },
+      isUsingEfficiency: { type: Boolean },
+    },
+    serverSettings: {
+      isDailyArchivating: { type: Boolean },
+      archivatingTime: { type: Number },
+      isShowWelcome: { type: Boolean },
+      isShowLearn: { type: Boolean },
+    },
   },
 });
 

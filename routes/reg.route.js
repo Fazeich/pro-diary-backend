@@ -37,12 +37,18 @@ router.post(
       const user = new User({
         login,
         password: hashedPasword,
-        diaries: [],
         settings: {
-          isUsingEfficiency: true,
-          efficiency: 6,
-          isShowWelcome: true,
-          isShowLearn: true,
+          userSettings: {
+            isUsingEfficiency: true,
+            efficiency: 6,
+          },
+
+          serverSettings: {
+            isDailyArchivating: true,
+            dailyArchivatingTime: 6,
+            isShowWelcome: true,
+            isShowLearn: true,
+          },
         },
       });
 
