@@ -2,7 +2,6 @@ const { Router } = require("express");
 const { check, validationResult } = require("express-validator");
 const Diary = require("../models/Diary");
 const getSortedDiaries = require("../utils/getSortedDiaries");
-// const sortDiaries = require("../utils/getSortedDiaries");
 
 const router = Router();
 
@@ -24,9 +23,11 @@ router.get(
       }
       const { userId } = req.query;
 
-      const diaries = await Diary.find({ owner: userId });
-
-      const activeDiaries = diaries.filter((diary) => !diary.archived);
+      const activeDiaries = await Diary.find({
+        owner: userId,
+        archived: false,
+        deleted: false,
+      });
 
       const sortedDiaries = getSortedDiaries(activeDiaries);
 
@@ -59,6 +60,7 @@ router.get(
         const archivedDiaries = await Diary.find({
           owner: userId,
           archived: true,
+          deleted: false,
           finished,
         });
 
@@ -104,6 +106,7 @@ router.post(
         owner: userId,
         finished: false,
         archived: false,
+        deleted: false,
       });
 
       await newDiary.save();
@@ -291,6 +294,36 @@ router.post(
 
     res.status(200).json({
       message: "Задача успешно возвращена из архива!",
+    });
+  }
+);
+
+// Мягкое удаление задачи
+router.post(
+  "/delete",
+  [check("id", "Некорректный идентификатор записи").exists()],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        data: {
+          errors,
+          message: "Ошибка при получении данных",
+        },
+      });
+    }
+
+    const { id } = req.body;
+
+    if (!id) {
+      res.status(500).json({ message: "Ошибка при получении данных" });
+    }
+
+    await Diary.updateOne({ _id: id }, { deleted: true });
+
+    res.status(200).json({
+      message: "Задача успешно удалена!",
     });
   }
 );

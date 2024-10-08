@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const archiveDiary = require("./utils/archiveDiary");
 
 const PORT = process.env.PORT || 3010;
+
 const app = express();
 
 app.use(express.json({ extended: true }));
@@ -22,6 +24,8 @@ app.use("/api", require("./routes/me.route"));
 app.use("/api/diaries", require("./routes/diaries.route"));
 
 app.use("/api/user", require("./routes/user.route"));
+
+archiveDiary();
 
 const start = async () => {
   try {

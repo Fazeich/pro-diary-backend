@@ -39,13 +39,14 @@ router.post(
         password: hashedPasword,
         settings: {
           userSettings: {
-            isUsingEfficiency: true,
+            isUsingEfficiency: false,
             efficiency: 6,
           },
 
           serverSettings: {
-            isDailyArchivating: true,
-            dailyArchivatingTime: 6,
+            isDailyClearArchive: false,
+            isDailyArchivating: false,
+            dailyArchivatingTime: 0,
             isShowWelcome: true,
             isShowLearn: true,
           },

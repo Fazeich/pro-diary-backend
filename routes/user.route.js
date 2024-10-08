@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const User = require("../models/User");
-
 const router = Router();
 
 router.post("/change", async (req, res) => {
@@ -60,15 +59,17 @@ router.post("/settings/server/change", async (req, res) => {
     await User.updateOne(
       { _id: userId },
       { settings: { ...user.settings, serverSettings: settings } }
-    ).then(async () => {
-      const newUser = await User.findById(userId);
+    )
+      .then(async () => {
+        const newUser = await User.findById(userId);
 
-      return res.status(200).json(newUser.settings.serverSettings);
-    });
-
-    return res.status(400).json({
-      message: "Не удалось обновить пользователя",
-    });
+        return res.status(200).json(newUser.settings.serverSettings);
+      })
+      .catch(() => {
+        return res.status(400).json({
+          message: "Не удалось обновить пользователя",
+        });
+      });
   } catch (error) {
     console.log(error);
   }
@@ -89,15 +90,17 @@ router.post("/settings/user/change", async (req, res) => {
     await User.updateOne(
       { _id: userId },
       { settings: { ...user.settings, userSettings: settings } }
-    ).then(async () => {
-      const newUser = await User.findById(userId);
+    )
+      .then(async () => {
+        const newUser = await User.findById(userId);
 
-      return res.status(200).json(newUser.settings.userSettings);
-    });
-
-    return res.status(400).json({
-      message: "Не удалось обновить пользователя",
-    });
+        return res.status(200).json(newUser.settings.userSettings);
+      })
+      .catch(() => {
+        return res.status(400).json({
+          message: "Не удалось обновить пользователя",
+        });
+      });
   } catch (error) {
     console.log(error);
   }

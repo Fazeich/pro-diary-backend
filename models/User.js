@@ -13,6 +13,7 @@ const schema = new Schema({
     serverSettings: {
       isDailyArchivating: { type: Boolean },
       archivatingTime: { type: Number },
+      isDailyClearArchive: { type: Boolean },
       isShowWelcome: { type: Boolean },
       isShowLearn: { type: Boolean },
     },
