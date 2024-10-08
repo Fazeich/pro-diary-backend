@@ -1,7 +1,7 @@
-const { Router } = require("express");
-const { check, validationResult } = require("express-validator");
-const Diary = require("../models/Diary");
-const getSortedDiaries = require("../utils/getSortedDiaries");
+import { Router } from "express";
+import { check, validationResult } from "express-validator";
+import Diary from "../models/Diary/Diary";
+import { getSortedDiaries } from "../utils/getSortedDiaries";
 
 const router = Router();
 
@@ -328,4 +328,4 @@ router.post(
   }
 );
 
-module.exports = router;
+export default router;

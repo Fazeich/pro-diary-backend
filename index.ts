@@ -1,12 +1,18 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const archiveDiary = require("./utils/archiveDiary");
+import express from "express";
+import mongoose from "mongoose";
+import { archiveDiary } from "./utils/archiveDiary";
+
+import userRoute from "./routes/user.route";
+import regRoute from "./routes/reg.route";
+import authRoute from "./routes/auth.route";
+import meRoute from "./routes/me.route";
+import diariesRoute from "./routes/diaries.route";
 
 const PORT = process.env.PORT || 3010;
 
 const app = express();
 
-app.use(express.json({ extended: true }));
+app.use(express.json());
 
 app.use((_, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -15,15 +21,15 @@ app.use((_, res, next) => {
   next();
 });
 
-app.use("/api", require("./routes/reg.route"));
+app.use("/api", regRoute);
 
-app.use("/api", require("./routes/auth.route"));
+app.use("/api", authRoute);
 
-app.use("/api", require("./routes/me.route"));
+app.use("/api", meRoute);
 
-app.use("/api/diaries", require("./routes/diaries.route"));
+app.use("/api/diaries", diariesRoute);
 
-app.use("/api/user", require("./routes/user.route"));
+app.use("/api/user", userRoute);
 
 archiveDiary();
 

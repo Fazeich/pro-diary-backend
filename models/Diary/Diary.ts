@@ -1,6 +1,7 @@
-const { Schema, model } = require("mongoose");
+import { model, Schema } from "mongoose";
+import { IDiary } from "./types";
 
-const schema = new Schema({
+const schema = new Schema<IDiary>({
   title: { type: String },
   finished: { type: Boolean },
   archived: { type: Boolean },
@@ -10,4 +11,4 @@ const schema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
-module.exports = model("Diary", schema);
+export default model("Diary", schema);

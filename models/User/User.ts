@@ -1,10 +1,11 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from "mongoose";
+import { IUser } from "./types";
 
-const schema = new Schema({
+const schema = new Schema<IUser>({
   login: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  type: { type: String },
   diaries: [{ type: Schema.Types.ObjectId, ref: "Diary" }],
-
   settings: {
     userSettings: {
       efficiency: { type: Number },
@@ -20,4 +21,4 @@ const schema = new Schema({
   },
 });
 
-module.exports = model("User", schema);
+export default model("User", schema);

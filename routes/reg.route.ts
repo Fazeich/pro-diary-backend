@@ -1,7 +1,7 @@
-const { Router } = require("express");
-const User = require("../models/User");
-const { check, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
+import { Router } from "express";
+import User from "../models/User/User";
+import { check, validationResult } from "express-validator";
+import bcrypt from "bcryptjs";
 
 const router = Router();
 
@@ -36,6 +36,7 @@ router.post(
 
       const user = new User({
         login,
+        type: "default",
         password: hashedPasword,
         settings: {
           userSettings: {
@@ -64,4 +65,4 @@ router.post(
   }
 );
 
-module.exports = router;
+export default router;

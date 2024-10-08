@@ -1,10 +1,11 @@
-const { Router } = require("express");
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import { Router } from "express";
+import User from "../models/User/User";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
+// @ts-ignore
 router.post("/auth", async (req, res) => {
   try {
     const { login, password } = req.body;
@@ -20,6 +21,12 @@ router.post("/auth", async (req, res) => {
     if (!user) {
       return res.status(400).json({
         message: "Пользователь не найден",
+      });
+    }
+
+    if (user.type === "inactive") {
+      return res.status(400).json({
+        message: "Пользователь заблокирован или удалён",
       });
     }
 
@@ -55,4 +62,4 @@ router.post("/auth", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

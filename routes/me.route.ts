@@ -1,9 +1,10 @@
-const { Router } = require("express");
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
+import { Router } from "express";
+import User from "../models/User/User";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
+// @ts-ignore
 router.post("/me", async (req, res) => {
   try {
     const { token } = req.body;
@@ -12,6 +13,12 @@ router.post("/me", async (req, res) => {
 
     if (data.userId) {
       const user = await User.findOne({ _id: data.userId });
+
+      if (user.type === "inactive") {
+        return res.status(400).json({
+          message: "Пользователь заблокирован или удалён",
+        });
+      }
 
       if (user) {
         return res.status(200).json({
@@ -36,4 +43,4 @@ router.post("/me", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

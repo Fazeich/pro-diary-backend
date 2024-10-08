@@ -1,7 +1,9 @@
-const { Router } = require("express");
-const User = require("../models/User");
+import { Router } from "express";
+import User from "../models/User/User";
+
 const router = Router();
 
+// @ts-ignore
 router.post("/change", async (req, res) => {
   try {
     const { userId, userData } = req.body;
@@ -26,6 +28,7 @@ router.post("/change", async (req, res) => {
   }
 });
 
+// @ts-ignore
 router.get("/settings", async (req, res) => {
   try {
     const { userId } = req.query;
@@ -38,12 +41,13 @@ router.get("/settings", async (req, res) => {
 
     const user = await User.findOne({ _id: userId });
 
-    return res.status(200).json(user.settings);
+    return res.status(200).json(user?.settings);
   } catch (error) {
     console.log(error);
   }
 });
 
+// @ts-ignore
 router.post("/settings/server/change", async (req, res) => {
   try {
     const { userId, settings } = req.body;
@@ -56,14 +60,22 @@ router.post("/settings/server/change", async (req, res) => {
 
     const user = await User.findById(userId);
 
+    const isPremium = user.type === "premium";
+
+    if (!isPremium) {
+      return res.status(400).json({
+        message: "Для начала активируйте премиум",
+      });
+    }
+
     await User.updateOne(
       { _id: userId },
-      { settings: { ...user.settings, serverSettings: settings } }
+      { settings: { ...user?.settings, serverSettings: settings } }
     )
       .then(async () => {
         const newUser = await User.findById(userId);
 
-        return res.status(200).json(newUser.settings.serverSettings);
+        return res.status(200).json(newUser?.settings?.serverSettings);
       })
       .catch(() => {
         return res.status(400).json({
@@ -75,6 +87,7 @@ router.post("/settings/server/change", async (req, res) => {
   }
 });
 
+// @ts-ignore
 router.post("/settings/user/change", async (req, res) => {
   try {
     const { userId, settings } = req.body;
@@ -89,12 +102,12 @@ router.post("/settings/user/change", async (req, res) => {
 
     await User.updateOne(
       { _id: userId },
-      { settings: { ...user.settings, userSettings: settings } }
+      { settings: { ...user?.settings, userSettings: settings } }
     )
       .then(async () => {
         const newUser = await User.findById(userId);
 
-        return res.status(200).json(newUser.settings.userSettings);
+        return res.status(200).json(newUser?.settings?.userSettings);
       })
       .catch(() => {
         return res.status(400).json({
@@ -106,4 +119,4 @@ router.post("/settings/user/change", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
